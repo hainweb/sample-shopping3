@@ -8,7 +8,7 @@
           <label>Name</label>
           <input type="text" class="form-control" name="Name" placeholder="Enter Name">
           <label>Mobile</label>
-          <input type="number" class="form-control" name="Mobile" placeholder="Enter email">
+          <input type="number" class="form-control" name="Mobile" placeholder="Enter Mobile">
           <label>Address</label>
           <input class="form-control" placeholder="Address" type="text" name="Address" id="">
           <input type="text" name="userId" id="" value="{{user._id}}" hidden>
@@ -62,7 +62,7 @@
                 if (response.status) {
                     location.href = "/order-success";
                 }
-            }, 7000); // 5000 milliseconds = 5 seconds
+            }, 5000); // 5000 milliseconds = 5 seconds
         }
     });
 });
