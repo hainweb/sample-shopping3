@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <style>
+     body, html {
+    margin: 0;
+    padding: 0;
+   
+    font-family: Arial, sans-serif;
+    background-color: #f3f4f6;
+}
+.navbar {
+    background-color: #fff;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nav-links a {
+    margin-right: 1rem;
+    text-decoration: none;
+    color: #333;
+}
+
+.dropdown {
+    background-color: #6c757d;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+}
+
+
+
+.main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Ensure the container takes up the full viewport height */
+}
+.main-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Ensure the container takes up the full viewport height */
+}
+
+.card {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+.icon-container {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+}
+
+.circle {
+    width: 100%;
+    height: 100%;
+    background-color: green;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.checkmark {
+    color: white;
+    font-size: 2rem;
+}
+
+.dot {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: lightgreen;
+    border-radius: 50%;
+    opacity: 0;
+}
+
+h2 {
+    margin-bottom: 0.5rem;
+}
+
+p {
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+}
+
+.buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+button {
+    flex: 1;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.view-order {
+    background-color: #e5e7eb;
+    color: #374151;
+}
+
+.continue-shopping {
+    background-color: #3f69ff;
+    color: white;
+}
+
+.view-order:hover {
+    background-color: #d1d5db;
+}
+
+.continue-shopping:hover {
+    background-color: #1352ff;
+}
+
+    </style>
+</head>
+
+<body>
+    <div class="main-main">
+    <div class="card">
+        <div class="icon-container">
+            <div class="circle">
+                <span class="checkmark">✓</span>
+            </div>
+        </div>
+        <h2>Thank you for ordering!</h2>
+        <p>Thank you for choosing Our Services. We appreciate your business and look forward to serving you again!</p>
+        <div class="buttons">
+           <a href="/view-orders"> <button class="view-order">VIEW ORDER</button> </a>
+         <a href="/">  <button class="continue-shopping">CONTINUE SHOPPING</button> </a>
+        </div>
+    </div>
+    </div>
+
+    <!-- Confetti JS -->
+    <script src="/javascripts/confetti.js"></script>
+
+    <script>
+        function createDots() {
+            const container = document.querySelector('.icon-container');
+            for (let i = 0; i < 20; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                container.appendChild(dot);
+                animateDot(dot);
+            }
+        }
+
+        function animateDot(dot) {
+            const angle = Math.random() * Math.PI * 2;
+            const radius = 40 + Math.random() * 40;
+            const startX = Math.cos(angle) * radius;
+            const startY = Math.sin(angle) * radius;
+            const endX = startX + (Math.random() - 0.5) * 20;
+            const endY = startY + (Math.random() - 0.5) * 20;
+
+            dot.style.left = `calc(50% + ${startX}px)`;
+            dot.style.top = `calc(50% + ${startY}px)`;
+
+            setTimeout(() => {
+                dot.style.transition = 'all 2s ease-out';
+                dot.style.left = `calc(50% + ${endX}px)`;
+                dot.style.top = `calc(50% + ${endY}px)`;
+                dot.style.opacity = '1';
+            }, Math.random() * 1000);
+
+            setTimeout(() => {
+                dot.style.opacity = '0';
+            }, 1500 + Math.random() * 500);
+
+            setTimeout(() => animateDot(dot), 2000 + Math.random() * 1000);
+        }
+
+        createDots();
+        // Start the confetti animation on page load
+        const start = () => {
+            setTimeout(function () {
+                confetti.start();
+            }, 100);
+        };
+
+        const stop = () => {
+            setTimeout(function () {
+                confetti.stop();
+            }, 5000);
+        };
+
+        // Start and stop confetti when the page loads
+        start();
+        stop();
+    </script>
+</body>
+
+</html>
