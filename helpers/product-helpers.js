@@ -51,10 +51,7 @@ doAdminLogin: (adminData) => {
     getAllProducts: () => {
       return new Promise(async (resolve, reject) => {
         try {
-          const database = await db.get();
-          if (!database) {
-            throw new Error('Database not initialized');
-          }
+          const database = db.get();
           let products = await database.collection(collection.PRODUCT_COLLECTION).find().toArray();
           resolve(products);
         } catch (error) {
