@@ -5,7 +5,7 @@ let db = null;
 
 module.exports = {
   connect: (callback) => {
-    const url = process.env.MONGODB_URI || 'your_mongodb_url';
+    const url = 'mongodb+srv://hainofficialweb:0wCqDqaj0vQO28oD@samle-shopping.f5two.mongodb.net/?retryWrites=true&w=majority&appName=samle-shopping';
     const dbname = 'shopping';
 
     MongoClient.connect(url, { useUnifiedTopology: true })
