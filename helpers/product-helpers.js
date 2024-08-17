@@ -48,12 +48,20 @@ doAdminLogin: (adminData) => {
            callback(data.insertedId)
         })
     },
-    getAllProducts:()=>{
-      return new Promise(async(resolve,reject)=>{
-        let products = await db.get().collection(collection.PRODUCT_COLLECTION).find().toArray()
-            resolve(products)
-        
-      })
+    getAllProducts: () => {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const database = await db.get();
+          if (!database) {
+            throw new Error('Database not initialized');
+          }
+          let products = await database.collection(collection.PRODUCT_COLLECTION).find().toArray();
+          resolve(products);
+        } catch (error) {
+          console.error('Error in getAllProducts:', error);
+          reject(error);
+        }
+      });
     },
     deleteProduct:(proId)=>{
       return new Promise((resolve,reject)=>{
