@@ -22,7 +22,7 @@ router.get('/', async function (req, res, next) {
   }
   productHelpers.getAllProducts().then((products) => {
 
-    res.render('user/view-products', { products, user, cartCount })
+    res.render('user/view-products', { products, user:req.session.user, cartCount })
   })
 });
 router.get('/login', (req, res) => {
@@ -73,10 +73,10 @@ router.get('/cart', verifyLogin, async (req, res) => {
   res.render('user/cart', { products, user: req.session.user._id, total })
 })
 
-router.get('/add-to-cart/:id', verifyLogin, (req, res) => {
+router.get('/add-to-cart/:id', verifyLogin, async(req, res) => {
   console.log("api call");
 
-  userHelpers.addToCart(req.params.id, req.session.user._id).then(() => {
+ await userHelpers.addToCart(req.params.id, req.session.user._id).then(() => {
     res.json({ status: true })
 
 
@@ -118,6 +118,23 @@ router.get('/view-orders-products/:orderId', verifyLogin, async (req, res) => {
   const order = await userHelpers.getOrderedProducts(orderId); // Ensure this function fetches the product and quantity details correctly
 
   res.render('user/view-orders-products', { user: req.session.user, orders: order });
+});
+router.get('/buy-now/:id', verifyLogin, async (req, res) => {
+  try {
+    console.log("Fetching product details");
+
+    // Fetch product details
+    const product = await userHelpers.buyNow(  req.params.id);
+    if (product) {
+      // Render product details page or send JSON response
+      res.render('user/buy-p-details', { user:req.session.user, product }); // Adjust to your view/template system
+    } else {
+      res.status(404).send("Product not found");
+    }
+  } catch (error) {
+    console.error("Error fetching product details:", error);
+    res.status(500).send("An error occurred");
+  }
 });
 
 

@@ -5,6 +5,43 @@ const { response } = require('express');
 
 module.exports={
 
+  doAdminSignup: (adminData) => {
+    return new Promise(async (resolve, reject) => {
+
+
+        adminData.Password = await bcrypt.hash(adminData.Password, 10)
+        db.get().collection(collection.ADMIN_COLLECTION).insertOne(adminData).then((data) => {
+            resolve(data.insertedId)
+        })
+    })
+
+},
+doAdminLogin: (adminData) => {
+    return new Promise(async (resolve, reject) => {
+        let loginStatus = false
+        let response = {}
+        let user = await db.get().collection(collection.ADMIN_COLLECTION).findOne({ Email: userData.Email })
+        if (user) {
+            bcrypt.compare(userData.Password, user.Password).then((status) => {
+                if (status) {
+                    console.log('Login success');
+                    response.user = user
+                    response.status = true
+                    resolve(response)
+                } else {
+                    console.log('login failed');
+                    resolve({ status: false })
+                }
+
+            })
+
+        } else {
+            console.log('No user failed');
+            resolve({ statu: false })
+        }
+    })
+},
+
     addProduct:(product,callback)=>{
         console.log(product);
         db.get().collection('product').insertOne(product).then((data)=>{
@@ -42,7 +79,8 @@ module.exports={
         {$set:{
                Name:proDetailes.Name,
                Category:proDetailes.Category,
-               Description:proDetailes.Description
+               Description:proDetailes.Description,
+               Price:proDetailes.Price
         }}
         ).then((response)=>{
           resolve()

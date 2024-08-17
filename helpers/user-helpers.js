@@ -225,6 +225,7 @@ module.exports = {
                 // Handle the case where total is not an array or is empty
                 resolve(0); // Or some other default value
             }
+            
 
         });
     },
@@ -316,9 +317,31 @@ module.exports = {
             resolve(cartItems)
         })
 
-    }
+    },
+
+
+
+    buyNow: (proId) => {
+        return new Promise(async (resolve, reject) => {
+          try {
+            // Fetch product details
+            let product = await db.get().collection(collection.PRODUCT_COLLECTION).findOne({ _id: new ObjectId(proId) });
+            if (product) {
+              resolve(product);
+            } else {
+              reject(new Error('Product not found'));
+            }
+          } catch (error) {
+            console.error("Error fetching product details:", error);
+            reject(error);
+          }
+        });
+      }
+      
 
    
 }
+
+
 
 

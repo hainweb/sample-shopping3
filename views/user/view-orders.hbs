@@ -20,7 +20,11 @@
                         <td>{{this.date}}</td>
                         <td>{{this.dliveryDeatails.mobile}}</td>
                         <td>{{this.dliveryDeatails.address}}</td>
+                        {{#if totalAmount}}
                         <td>{{this.totalAmount}}</td>
+                        {{else}}
+                        <td>{{this.product.Price}}</td>
+                        {{/if}}
                         <td>{{this.status}}</td>
                         <td> <a href="/view-orders-products/{{this._id}}"> <button class="btn btn-info">View product</button> </a> </td>
                     </tr>

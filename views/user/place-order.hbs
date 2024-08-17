@@ -11,14 +11,15 @@
           <input type="number" class="form-control" name="Mobile" placeholder="Enter Mobile">
           <label>Address</label>
           <input class="form-control" placeholder="Address" type="text" name="Address" id="">
+          <label>Pincode</label>
+          <input class="form-control" type="number" name="Pincode" placeholder="Pincode">
           <input type="text" name="userId" id="" value="{{user._id}}" hidden>
         </div>
       </div>
 
       <div class="col-md-4">
         <div class="container mt-5 mr-3 checkout">
-          <h5>Total Amount : {{total}}</h5>
-          <hr>
+
           <div class="payment">
             <p>Payment method</p>
             <label for="" class="radio-inline">
@@ -26,21 +27,25 @@
             </label><br>
             <label for="" class="radio-inline">
               <input type="radio" name="payment-method" value="ONLINE">Online payment
-            </label><br> 
-            <button class="order mt-1" type="submit"><span class="default">Complete Order</span><span class="success">Order Placed
-                    <svg viewbox="0 0 12 10">
-                        <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
-                    </svg></span>
-                <div class="box"></div>
-                <div class="truck">
-                    <div class="back"></div>
-                    <div class="front">
-                        <div class="window"></div>
-                    </div>
-                    <div class="light top"></div>
-                    <div class="light bottom"></div>
+
+              <p id="availability-message" class="message"></p>
+              
+            </label><br>
+            <button class="order mt-1" type="submit"><span class="default">Complete Order</span><span
+                class="success">Order Placed
+                <svg viewbox="0 0 12 10">
+                  <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                </svg></span>
+              <div class="box"></div>
+              <div class="truck">
+                <div class="back"></div>
+                <div class="front">
+                  <div class="window"></div>
                 </div>
-                <div class="lines"></div>
+                <div class="light top"></div>
+                <div class="light bottom"></div>
+              </div>
+              <div class="lines"></div>
             </button>
           </div>
         </div>
@@ -50,36 +55,64 @@
 </section>
 
 <script>
+  
+ $(document).ready(function () {
+    // Check the payment method when the form is submitted or when the payment method changes
+    function checkPaymentMethod() {
+        const paymentMethod = $('input[name="payment-method"]:checked').val();
+        if (paymentMethod === 'ONLINE') {
+            $(".order").show(); // Hide the button
+        } else {
+            $(".order").show(); // Show the button
+        }
+    }
+
+    // Initial check when the page loads
+    checkPaymentMethod();
+
+    // Check the payment method when it changes
+    $('input[name="payment-method"]').change(checkPaymentMethod);
+
     $("#checkform").submit((e) => {
-    e.preventDefault();
-    $.ajax({
-        url: '/place-order',
-        method: 'post',
-        data: $('#checkform').serialize(),
-        success: (response) => {
+        e.preventDefault();
+        $.ajax({
+            url: '/place-order',
+            method: 'post',
+            data: $('#checkform').serialize(),
+            success: (response) => {
+                setTimeout(() => {
+                    alert("Ordered successfully");
+                    if (response.status) {
+                        location.href = "/order-success";
+                    }
+                }, 6000); // 6000 milliseconds = 6 seconds
+            }
+        });
+    });
+
+    $(".order").click(function (e) {
+        let button = $(this);
+
+        if (!button.hasClass("animate")) {
+            button.addClass("animate");
             setTimeout(() => {
-                alert("Ordered successfully");
-                if (response.status) {
-                    location.href = "/order-success";
-                }
-            }, 7000); // 5000 milliseconds = 5 seconds
+                button.removeClass("animate");
+            }, 10000);
         }
     });
 });
+document.addEventListener('DOMContentLoaded', function() {
+            const paymentRadios = document.querySelectorAll('input[name="payment-method"]');
+            const availabilityMessage = document.getElementById('availability-message');
 
-     $(document).ready(function () {
-            $(".order").click(function (e) {
-                let button = $(this);
-
-                if (!button.hasClass("animate")) {
-                    button.addClass("animate");
-                    setTimeout(() => {
-                        button.removeClass("animate");
-                    }, 10000);
-                }
+            paymentRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'ONLINE') {
+                        availabilityMessage.textContent = 'Not available online payment in this time ';
+                    } else {
+                        availabilityMessage.textContent = '';
+                    }
+                });
             });
         });
-        
-
-        
 </script>

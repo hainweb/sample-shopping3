@@ -19,7 +19,7 @@ router.get('/', async function (req, res, next) {
 
 
 router.get('/add-product', function (req, res) {
-  res.render('admin/add-product')
+  res.render('admin/add-product',{admin : true})
 })
 router.post('/add-product', (req, res) => {
   console.log(req.body);
@@ -30,8 +30,8 @@ router.post('/add-product', (req, res) => {
     console.log(id);
     image.mv('./public/product-images/' + id + '.jpg', (err, done) => {
       if (!err) {
-        res.render("admin/add-product")
-      }
+        res.render("admin/add-product",{admin:true})
+      } 
     })
 
   })
@@ -50,7 +50,7 @@ router.get('/delete-product/:id', (req, res) => {
 router.get('/edit-product/:id', async (req, res) => {
   let product = await productHelpers.getProductDetailes(req.params.id)
 
-  res.render('admin/edit-product', { product })
+  res.render('admin/edit-product', {admin:true, product })
 });
 
 router.post('/edit-product/:id', (req, res) => {
@@ -64,6 +64,13 @@ router.post('/edit-product/:id', (req, res) => {
 
     }
   })
+})
+
+router.get('/admin-all-orders',(req,res)=>{
+  res.render('admin/all-orders',{admin : true})
+})
+router.get('/admin-all-users',(req,res)=>{
+  res.render('admin/all-users')
 })
 
 

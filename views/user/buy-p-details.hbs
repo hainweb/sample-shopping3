@@ -1,0 +1,46 @@
+
+
+<section>
+    <div class="container">
+        <table class="table mt-5">
+            <thead>
+
+                <tr>
+                    <th>Item</th>
+                    <th>title</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                <tr>
+
+                <tr>
+                    <td>
+                        <img src="/product-images/{{product._id}}.jpg" style="width: 80px; height: 60px;">
+                    </td>
+                    <td>{{product.Name}}</td>
+                    <td>{{product.Price}}</td>
+                    <td>1</td>
+                    
+                  
+                </tr>
+
+
+            </tbody>
+        </table>
+        <hr>
+        <div class="float-right pr-5">
+            
+            <h4 class="float-right mr-5 ">Total: Rs <span id="total">{{product.Price}}</span> </h4>
+            <div class="container">
+
+                <a href="/place-order" class="btn btn-primary mt-1 ml-3">Place order</a>
+
+               
+            </div>
+        </div>
+
+    </div>
+</section>

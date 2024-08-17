@@ -1,9 +1,11 @@
+
+
 <section>
   <div class="container">
     <div class="row mt-4">
       <a class="btn btn-primary ml-auto" href="/admin/add-product"> Add products</a>
     </div>
-    <table class="table mt-5">
+    <table class="table mt-5" id="products-table">
       <thead>
         <tr>
           <th scope="col">No</th>
@@ -13,9 +15,11 @@
           <th scope="col">Description</th>
           <th scope="col">Image</th>
           <th scope="col">Orders</th>
+          <th scope="col">Options</th>
         </tr>
       </thead>
       <tbody>
+     
         {{#each products}}
         <tr>
          
@@ -45,3 +49,14 @@
   </div>
 </section>
 
+<script>
+ $(function() {
+    $('#products-table').DataTable({
+        "columnDefs": [
+            { "orderable": false, "targets": [ 2, 4, 5, 7] } // Indexes of columns where sorting is disabled
+        ]
+    });
+});
+
+
+</script>
