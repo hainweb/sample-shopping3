@@ -61,7 +61,7 @@
     function checkPaymentMethod() {
         const paymentMethod = $('input[name="payment-method"]:checked').val();
         if (paymentMethod === 'ONLINE') {
-            $(".order").show(); // Hide the button
+            $(".order").hide(); // Hide the button
         } else {
             $(".order").show(); // Show the button
         }
